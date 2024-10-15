@@ -1,0 +1,9 @@
+[tool.pyright]
+include = ["."]
+extraPaths = ["."]
+executionEnvironments = [
+  { root = "." }
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
