@@ -1,4 +1,0 @@
-:root { --bg: #0f172a; --primary: #38bdf8; --text: #f8fafc; }
-body { background: var(--bg); color: var(--text); font-family: sans-serif; }
-.glow { animation: pulse 2s infinite; }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(56,189,248,0.4); } }
