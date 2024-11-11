@@ -1,3 +1,73 @@
+# Environment & secrets
 .env
+.env.*
+*.env
+secrets.json
+credentials.json
+*.key
+*.pem
+
+# Data directories
+chroma_db/
+faiss_db/
+corpus/
+*.faiss
+*.index
+
+# Runtime state
+runtime_state.json
+*.log
+logs/
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Misc project artifacts
+.pyre_configuration
+.gitconfig
+MANIFEST.txt
+figs/
+.emergent/
