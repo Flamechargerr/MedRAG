@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: medrag
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT wsgi:app
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: GROQ_API_KEY
+        sync: false
+      - key: APP_AUTH_TOKEN
+        sync: false
+      - key: CORS_ORIGINS
+        value: "https://medrag.onrender.com"
+      - key: RATE_LIMIT_PER_MINUTE
+        value: "30"
+      - key: PYTHON_VERSION
+        value: "3.12"
