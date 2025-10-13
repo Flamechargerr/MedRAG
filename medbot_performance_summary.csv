@@ -1,6 +1,0 @@
-,overall_accuracy,overall_accuracy,semantic_similarity,semantic_similarity,medical_accuracy,medical_accuracy,rouge1,rouge2,rougeL,groundedness,response_time
-,mean,std,mean,std,mean,std,mean,mean,mean,mean,mean
-model,,,,,,,,,,,
-Baseline_Model,0.5374,0.1271,0.6231,0.0893,0.6661,0.2943,0.1546,0.0321,0.1052,0.9899,0.0143
-General_LLM_GPT3.5,0.6978,0.0842,0.7661,0.08,0.8998,0.1495,0.2575,0.1007,0.1901,0.7481,3.6218
-Medical_Specialist_GPT4,0.6763,0.0497,0.7178,0.0894,0.9722,0.0962,0.1456,0.062,0.1121,0.2956,12.0689
