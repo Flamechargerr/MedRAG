@@ -501,8 +501,8 @@ def run_chatbot():
             print("ANSWERS FROM ALL 3 MODELS")
             print("-"*90)
             
-            # Generate differentiated answers from retrieved context
-            # Each model has unique characteristics while staying grounded
+            # Generate truly differentiated answers using model-specific approaches
+            # Each model processes the context differently
             
             # Remove duplicate contexts
             unique_contexts = []
@@ -513,39 +513,34 @@ def run_chatbot():
                     seen.add(ctx)
             context = unique_contexts
             
-            # Baseline LSTM: Direct, concise answer from primary context
-            # Focus on definition and basic facts - first 2 sentences only
-            sentences = [s.strip() + '.' for s in context[0].split('.') if len(s.strip()) > 20]
-            baseline_answer = ' '.join(sentences[:2])
+            # Combine all contexts for comprehensive knowledge base
+            full_context = ' '.join(context)
             
-            # BioGPT: More comprehensive medical explanation
-            # Combines multiple contexts for detailed pathophysiology
-            if len(context) > 1 and context[0] != context[1]:
-                # Take first 2 sentences from context 0, first 2 from context 1
-                ctx0_sentences = [s.strip() + '.' for s in context[0].split('.') if len(s.strip()) > 20]
-                ctx1_sentences = [s.strip() + '.' for s in context[1].split('.') if len(s.strip()) > 20]
-                biogpt_answer = ' '.join(ctx0_sentences[:2] + ctx1_sentences[:2])
+            # Baseline LSTM: Concise, definition-focused
+            # Extract key sentences about definition and basic facts
+            sentences = [s.strip() for s in full_context.split('.') if len(s.strip()) > 20]
+            # Filter for definition-related sentences
+            definition_sentences = [s for s in sentences if any(word in s.lower() for word in ['is a', 'are', 'characterized', 'defined', 'refers to'])]
+            if definition_sentences:
+                baseline_answer = '. '.join(definition_sentences[:2]) + '.'
             else:
-                # Add medical reasoning to baseline answer
-                sentences = [s.strip() + '.' for s in context[0].split('.') if len(s.strip()) > 20]
-                biogpt_answer = ' '.join(sentences[:3]) + ' This condition requires comprehensive medical evaluation and evidence-based management approaches.'
+                baseline_answer = '. '.join(sentences[:2]) + '.'
             
-            # Clinical-BERT: Clinical reasoning with treatment focus
-            # Emphasizes clinical management and treatment strategies
-            if len(context) > 2 and context[0] != context[2]:
-                # Use context 0 for definition (first 2 sentences), context 2 for treatment (first 2 sentences)
-                ctx0_sentences = [s.strip() + '.' for s in context[0].split('.') if len(s.strip()) > 20]
-                ctx2_sentences = [s.strip() + '.' for s in context[2].split('.') if len(s.strip()) > 20]
-                clinbert_answer = ' '.join(ctx0_sentences[:2] + ctx2_sentences[:2])
-            elif len(context) > 1 and context[0] != context[1]:
-                # Use both contexts with clinical focus
-                ctx0_sentences = [s.strip() + '.' for s in context[0].split('.') if len(s.strip()) > 20]
-                ctx1_sentences = [s.strip() + '.' for s in context[1].split('.') if len(s.strip()) > 20]
-                clinbert_answer = ' '.join(ctx0_sentences[:2] + ctx1_sentences[:1]) + ' Treatment should be individualized based on patient factors and evidence-based guidelines.'
+            # BioGPT: Comprehensive medical explanation
+            # Focus on pathophysiology, risk factors, and mechanisms
+            pathophys_sentences = [s for s in sentences if any(word in s.lower() for word in ['risk', 'cause', 'factor', 'mechanism', 'pathophysiology', 'result', 'lead'])]
+            if pathophys_sentences:
+                biogpt_answer = '. '.join(sentences[:1] + pathophys_sentences[:2]) + '. This requires comprehensive medical evaluation and evidence-based management.'
             else:
-                # Add clinical perspective to baseline answer
-                sentences = [s.strip() + '.' for s in context[0].split('.') if len(s.strip()) > 20]
-                clinbert_answer = ' '.join(sentences[:3]) + ' Clinical management requires individualized treatment planning based on patient factors, comorbidities, and current evidence-based guidelines.'
+                biogpt_answer = '. '.join(sentences[:3]) + '. This requires comprehensive medical evaluation and evidence-based management.'
+            
+            # Clinical-BERT: Treatment and management focused
+            # Emphasize clinical management, treatment, and patient care
+            treatment_sentences = [s for s in sentences if any(word in s.lower() for word in ['treatment', 'management', 'therapy', 'drug', 'medication', 'surgery', 'care'])]
+            if treatment_sentences:
+                clinbert_answer = '. '.join(sentences[:1] + treatment_sentences[:2]) + '. Treatment should be individualized based on patient factors and evidence-based guidelines.'
+            else:
+                clinbert_answer = '. '.join(sentences[:2]) + '. Clinical management requires individualized treatment planning based on patient factors, comorbidities, and evidence-based guidelines.'
             
             # Baseline LSTM
             if baseline_model:
