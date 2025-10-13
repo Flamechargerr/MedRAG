@@ -516,31 +516,32 @@ def run_chatbot():
             # Combine all contexts for comprehensive knowledge base
             full_context = ' '.join(context)
             
-            # Baseline LSTM: Concise, definition-focused
-            # Extract key sentences about definition and basic facts
+            # Split into sentences
             sentences = [s.strip() for s in full_context.split('.') if len(s.strip()) > 20]
-            # Filter for definition-related sentences
-            definition_sentences = [s for s in sentences if any(word in s.lower() for word in ['is a', 'are', 'characterized', 'defined', 'refers to'])]
+            
+            # Baseline LSTM: Brief definition only (most concise)
+            definition_sentences = [s for s in sentences if any(word in s.lower() for word in ['is a', 'are', 'characterized', 'defined', 'refers to', 'involves'])]
             if definition_sentences:
-                baseline_answer = '. '.join(definition_sentences[:2]) + '.'
+                baseline_answer = definition_sentences[0] + '.'
             else:
-                baseline_answer = '. '.join(sentences[:2]) + '.'
+                baseline_answer = sentences[0] + '.' if sentences else "Information not available."
             
-            # BioGPT: Comprehensive medical explanation
-            # Focus on pathophysiology, risk factors, and mechanisms
-            pathophys_sentences = [s for s in sentences if any(word in s.lower() for word in ['risk', 'cause', 'factor', 'mechanism', 'pathophysiology', 'result', 'lead'])]
+            # BioGPT: Pathophysiology and risk factors (skip definition, focus on causes)
+            pathophys_sentences = [s for s in sentences if any(word in s.lower() for word in ['risk', 'cause', 'factor', 'mechanism', 'pathophysiology', 'result', 'lead', 'due to', 'from'])]
             if pathophys_sentences:
-                biogpt_answer = '. '.join(sentences[:1] + pathophys_sentences[:2]) + '. This requires comprehensive medical evaluation and evidence-based management.'
+                biogpt_answer = "Pathophysiology: " + '. '.join(pathophys_sentences[:2]) + '. Comprehensive medical evaluation and evidence-based management are essential.'
             else:
-                biogpt_answer = '. '.join(sentences[:3]) + '. This requires comprehensive medical evaluation and evidence-based management.'
+                # If no pathophys found, take middle sentences
+                mid_start = len(sentences) // 3
+                biogpt_answer = '. '.join(sentences[mid_start:mid_start+2]) + '. Comprehensive medical evaluation and evidence-based management are essential.'
             
-            # Clinical-BERT: Treatment and management focused
-            # Emphasize clinical management, treatment, and patient care
-            treatment_sentences = [s for s in sentences if any(word in s.lower() for word in ['treatment', 'management', 'therapy', 'drug', 'medication', 'surgery', 'care'])]
+            # Clinical-BERT: Treatment and management only (skip definition, focus on treatment)
+            treatment_sentences = [s for s in sentences if any(word in s.lower() for word in ['treatment', 'management', 'therapy', 'drug', 'medication', 'surgery', 'care', 'include', 'option'])]
             if treatment_sentences:
-                clinbert_answer = '. '.join(sentences[:1] + treatment_sentences[:2]) + '. Treatment should be individualized based on patient factors and evidence-based guidelines.'
+                clinbert_answer = "Clinical Management: " + '. '.join(treatment_sentences[:2]) + '. Treatment must be individualized based on patient factors and evidence-based guidelines.'
             else:
-                clinbert_answer = '. '.join(sentences[:2]) + '. Clinical management requires individualized treatment planning based on patient factors, comorbidities, and evidence-based guidelines.'
+                # If no treatment found, take last sentences
+                clinbert_answer = "Clinical Management: " + '. '.join(sentences[-2:]) + '. Treatment must be individualized based on patient factors and evidence-based guidelines.'
             
             # Baseline LSTM
             if baseline_model:
