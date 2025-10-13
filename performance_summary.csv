@@ -1,6 +1,0 @@
-,overall_accuracy,overall_accuracy,rouge1,semantic_similarity,medical_accuracy,response_time
-,mean,std,mean,mean,mean,mean
-model,,,,,,
-Baseline,0.188,0.12,0.125,0.335,0.167,0.013
-General_LLM,0.515,0.127,0.25,0.779,0.847,1.814
-Medical_LLM,0.475,0.025,0.132,0.726,1.0,9.488
