@@ -40,15 +40,15 @@ MedBot is a complete **Medical Retrieval-Augmented Generation (RAG) system** tha
    - Learning rate: 0.3 (optimized for fast convergence)
    - Bidirectional LSTM with dropout
 
-2. **Medical RAG Model 1 (GPT-3.5-Turbo)**
+2. **Medical RAG Model 1 (BioMistral-7B)**
+   - Medical-specific model trained on PubMed
    - Retrieval-augmented generation
-   - Medical-specific prompting
-   - Top-3 chunk retrieval
+   - Top-3 chunk retrieval from Harrison's
 
-3. **Medical RAG Model 2 (GPT-4o-mini)**
-   - Advanced medical reasoning
-   - Comprehensive context utilization
-   - Top-5 chunk retrieval
+3. **Medical RAG Model 2 (Medical-Llama-13B)**
+   - Advanced medical reasoning model
+   - Trained on clinical notes and medical literature
+   - Top-5 chunk retrieval with comprehensive context
 
 ### 📊 Dataset
 
@@ -113,17 +113,19 @@ pip install -r requirements.txt
 ### Running the System
 
 ```bash
-# Run complete system (training + evaluation + chatbot)
-python MedBot_Final_System.py
+# Run complete system (training + evaluation)
+python RUN_MEDBOT.py
 ```
 
 **What it does:**
-1. ✅ Loads Harrison's textbook (15,000 pages)
-2. ✅ Trains baseline LSTM (20 epochs)
-3. ✅ Sets up RAG system with ChromaDB
-4. ✅ Evaluates all 3 models on 25 Q&A pairs
-5. ✅ Generates visualizations
-6. ✅ Starts interactive chatbot
+1. ✅ Loads Harrison's textbook (processes 3,000 pages from 15,000)
+2. ✅ Trains baseline LSTM (20 epochs with validation)
+3. ✅ Sets up RAG system with ChromaDB vector database
+4. ✅ Evaluates all 3 models on 25 medical Q&A pairs
+5. ✅ Generates training curves and comparison plots
+6. ✅ Saves detailed results to CSV
+
+**Expected Runtime:** 10-15 minutes (with GPU) or 30-45 minutes (CPU only)
 
 ### Interactive Chatbot Demo
 
