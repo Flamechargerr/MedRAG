@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 import gradio as gr
 import logging
 import time
@@ -12,18 +16,20 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("MedBot-Premium")
 
 # --- Global System State ---
-system = {
-    "vector_store": None,
-    "llm_gen": None,
-    "evaluator": RAGEvaluator(),
-    "is_initialized": False,
-    "current_reference": "",
-    "stats": {"last_latency": 0.0, "total_queries": 0}
-}
+class MedBotState:
+    def __init__(self):
+        self.vector_store: ChromaVectorStore | None = None
+        self.llm_gen: GroqGenerator | None = None
+        self.evaluator: RAGEvaluator = RAGEvaluator()
+        self.is_initialized: bool = False
+        self.current_reference: str = ""
+        self.stats = {"last_latency": 0.0, "total_queries": 0}
+
+system = MedBotState()
 
 # --- Backend Logic ---
-def initialize_system(corpus_size=100):
-    if system["is_initialized"]:
+def initialize_system(corpus_size: int = 200):
+    if system.is_initialized:
         return "⚡ System already optimized and ready."
     
     try:
@@ -35,11 +41,12 @@ def initialize_system(corpus_size=100):
         _, full_dataset = load_medqa_data(num_eval_questions=5)
         medical_corpus = load_medical_corpus(dataset_to_fallback=full_dataset, max_docs=corpus_size)
         
-        system["vector_store"] = ChromaVectorStore(db_dir=Config.CHROMA_DB_DIR, device=Config.DEVICE)
-        system["vector_store"].add_documents(medical_corpus)
+        # Ensure imports are resolved correctly in the environment
+        system.vector_store = ChromaVectorStore(db_dir=Config.CHROMA_DB_DIR, device=Config.DEVICE)
+        system.vector_store.add_documents(medical_corpus)
         
-        system["llm_gen"] = GroqGenerator(OPENCALL_LLM_KEY)
-        system["is_initialized"] = True
+        system.llm_gen = GroqGenerator(OPENCALL_LLM_KEY)
+        system.is_initialized = True
         
         duration = time.time() - start_time
         return f"✅ Knowledge Base Loaded ({len(medical_corpus)} docs) in {duration:.2f}s. Ready for queries."
@@ -47,33 +54,37 @@ def initialize_system(corpus_size=100):
         logger.error(f"Initialization error: {e}")
         return f"❌ System Error: {str(e)}"
 
-def process_query(question):
-    if not system["is_initialized"]:
+def process_query(question: str):
+    if not system.is_initialized:
         return "⚠️ Please initialize the Knowledge Base first.", "", "N/A", None
     
     if not question.strip():
         return "⚠️ Please provide a medical question.", "", "N/A", None
     
+    # Assertions to satisfy type checker
+    assert system.vector_store is not None, "Vector store not initialized"
+    assert system.llm_gen is not None, "LLM generator not initialized"
+    
     start_time = time.time()
     try:
         # 1. Retrieval
-        retrieved_docs = system["vector_store"].retrieve(question, top_k=3)
+        retrieved_docs = system.vector_store.retrieve(question, top_k=3)
         
         # 2. Generation
-        answer = system["llm_gen"].generate(question, retrieved_docs)
+        answer = system.llm_gen.generate(question, retrieved_docs)
         
         # 2b. Baseline Generation (No Context)
-        baseline_answer = system["llm_gen"].generate_no_context(question)
+        baseline_answer = system.llm_gen.generate_no_context(question)
         
         latency = time.time() - start_time
-        system["stats"]["last_latency"] = latency
-        system["stats"]["total_queries"] += 1
+        system.stats["last_latency"] = latency
+        system.stats["total_queries"] += 1
         
         # 3. Metrics (using stored reference if available)
         metrics_json = {"Latency": f"{latency:.2f}s"}
-        if system["current_reference"]:
-            rag_scores = system["evaluator"].compute_rouge_scores(answer, system["current_reference"])
-            base_scores = system["evaluator"].compute_rouge_scores(baseline_answer, system["current_reference"])
+        if system.current_reference:
+            rag_scores = system.evaluator.compute_rouge_scores(answer, system.current_reference)
+            base_scores = system.evaluator.compute_rouge_scores(baseline_answer, system.current_reference)
             
             metrics_json["RAG ROUGE-L"] = round(rag_scores["rougeL"], 4)
             metrics_json["Baseline ROUGE-L"] = round(base_scores["rougeL"], 4)
@@ -96,9 +107,9 @@ def process_query(question):
         logger.error(f"Processing error: {e}")
         return f"❌ Error: {str(e)}", "Error", "", "Error", None
 
-def set_reference(question, reference):
+def set_reference(question: str, reference: str):
     """Callback for examples to set the reference answer for the evaluator."""
-    system["current_reference"] = reference
+    system.current_reference = reference
     return question
 
 # --- UI Theme & CSS ---

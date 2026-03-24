@@ -1,4 +1,11 @@
--e 
 # Environment files
-*.env
-*.env.*
+.env
+.env.*
+
+# Data directory
+chroma_db/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
