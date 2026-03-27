@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MedBot Pro High-End Diagnostic RAG Interface">
+    <title>MedBot Pro | Mission Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo"></div>
+                <h2>MedBot Pro</h2>
+                <span class="badge">Enterprise RAG</span>
+            </div>
+
+            <div class="control-panel">
+                <h3>System Initialization</h3>
+                <label for="corpus-size">Knowledge Base Size</label>
+                <div class="range-wrapper">
+                    <input type="range" id="corpus-size" min="50" max="1000" step="50" value="200">
+                    <span id="corpus-val">200</span>
+                </div>
+                <button id="init-btn" class="primary-btn pulse-glow">Initialize Engine</button>
+                <div id="init-status" class="status-box">System idle...</div>
+            </div>
+
+            <div class="metrics-panel">
+                <h3>Real-Time Benchmarks</h3>
+                <div class="metric-card">
+                    <span class="metric-label">Latency</span>
+                    <span class="metric-value" id="latency-val">0.00s</span>
+                </div>
+                <div class="metric-card highlight">
+                    <span class="metric-label">Acc. Improvement</span>
+                    <span class="metric-value" id="acc-val">N/A</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">RAG ROUGE-L</span>
+                    <span class="metric-value" id="rag-val">N/A</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">Base ROUGE-L</span>
+                    <span class="metric-value" id="base-val">N/A</span>
+                </div>
+            </div>
+            
+            <div class="examples-panel">
+                <h3>Quick Scenarios</h3>
+                <ul id="examples-list">
+                    <li data-q="What are the pathognomonic symptoms of a myocardial infarction?" data-ref="Chest pain, diaphoresis, nausea, and shortness of breath.">Myocardial Infarction</li>
+                    <li data-q="How does compression of the facial nerve at the stylomastoid foramen present?" data-ref="Facial asymmetry, difficulty closing eye, and lack of forehead wrinkles on affected side.">Bell's Palsy Eval</li>
+                    <li data-q="What is the first-line treatment for acute otitis media in pediatrics?" data-ref="Amoxicillin is typically the first-line antibiotic treatment.">Acute Otitis Media</li>
+                    <li data-q="Describe the mechanism of action for ACE inhibitors in hypertension." data-ref="Inhibition of Angiotensin-Converting Enzyme, preventing conversion of Angiotensin I to Angiotensin II.">ACE Inhibitors</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-nav">
+                <h1>Diagnostic Interface</h1>
+                <div class="status-indicator">
+                    <span class="dot offline" id="connection-dot"></span>
+                    <span id="connection-text">Database Uninitialized</span>
+                </div>
+            </header>
+
+            <section class="query-section">
+                <textarea id="query-input" placeholder="Enter patient clinical presentation or medical question..."></textarea>
+                <button id="submit-btn" class="action-btn">Run Diagnostic RAG</button>
+            </section>
+
+            <section class="results-grid">
+                <!-- RAG Response -->
+                <div class="response-card rag-card">
+                    <div class="card-header">
+                        <div class="glow-indicator"></div>
+                        <h3>MedBot Pro (RAG)</h3>
+                    </div>
+                    <div class="card-body" id="rag-output">
+                        <span class="placeholder-text">Awaiting diagnostic query...</span>
+                    </div>
+                </div>
+
+                <!-- Baseline Response -->
+                <div class="response-card base-card">
+                    <div class="card-header">
+                        <div class="indicator"></div>
+                        <h3>Baseline Model (No Context)</h3>
+                    </div>
+                    <div class="card-body" id="base-output">
+                        <span class="placeholder-text">Awaiting diagnostic query...</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="sources-section">
+                <h3>Evidentiary Sources</h3>
+                <div id="sources-output" class="sources-container">
+                    <span class="placeholder-text">Initialize system and run query to view sources.</span>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
