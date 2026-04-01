@@ -157,3 +157,4 @@ class Config:
         except Exception as exc:
             logging.getLogger(__name__).warning("Failed to initialize PyTorch device, falling back to CPU: %s", exc)
             cls.DEVICE = "cpu"
+# feat: add async indexing support for large corpora
