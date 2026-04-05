@@ -159,3 +159,4 @@ class Config:
             cls.DEVICE = "cpu"
 # feat: add async indexing support for large corpora
 # feat: implement streaming response for chat endpoint
+# fix: handle timeout in MedRAG corpus downloads
