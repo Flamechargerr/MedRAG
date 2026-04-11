@@ -57,10 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
         initStatus.style.color = 'var(--text-muted)';
 
         try {
+            const parsedCorpus = parseInt(corpusSize.value, 10);
+            const maxCorpus = parseInt(corpusSize.max, 10);
+            if (
+                Number.isNaN(parsedCorpus) ||
+                parsedCorpus <= 0 ||
+                (!Number.isNaN(maxCorpus) && parsedCorpus > maxCorpus)
+            ) {
+                throw new Error('Invalid corpus size selected.');
+            }
+
             const res = await fetch('/api/v1/init', {
                 method: 'POST',
                 headers: buildHeaders(),
-                body: JSON.stringify({ corpus_size: parseInt(corpusSize.value, 10) })
+                body: JSON.stringify({ corpus_size: parsedCorpus })
             });
             const data = await res.json();
 

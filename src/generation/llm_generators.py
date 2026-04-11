@@ -12,7 +12,11 @@ logger = logging.getLogger(__name__)
 class GroqGenerator:
     def __init__(self, api_key, max_retries: int = 2):
         self.api_key = api_key
-        self.max_retries = max(0, int(max_retries))
+        try:
+            parsed_retries = int(max_retries)
+        except (TypeError, ValueError):
+            parsed_retries = 2
+        self.max_retries = max(0, parsed_retries)
         if not api_key:
             logger.warning("No API key provided for Groq Generator. Falling back to non-LLM response mode.")
 

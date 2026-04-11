@@ -50,7 +50,7 @@ def create_app() -> Flask:
             return jsonify({"status": "error", "message": str(exc)}), 400
         except Exception as exc:
             logger.exception("Init error")
-            return jsonify({"status": "error", "message": str(exc)}), 500
+            return jsonify({"status": "error", "message": "Internal server error"}), 500
 
     def _chat_impl():
         try:
@@ -63,13 +63,13 @@ def create_app() -> Flask:
             reference = str(payload.get("reference", ""))
             response = service.chat(question=question, reference=reference)
             return jsonify(response)
-        except RuntimeError as exc:
-            return jsonify({"status": "error", "message": str(exc)}), 400
+        except RuntimeError:
+            return jsonify({"status": "error", "message": "Service is not initialized"}), 400
         except ValueError as exc:
             return jsonify({"status": "error", "message": str(exc)}), 400
         except Exception as exc:
             logger.exception("Chat error")
-            return jsonify({"status": "error", "message": str(exc)}), 500
+            return jsonify({"status": "error", "message": "Internal server error"}), 500
 
     @app.route("/api/v1/init", methods=["POST", "OPTIONS"])
     def initialize_v1():

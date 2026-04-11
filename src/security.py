@@ -110,7 +110,20 @@ class RequestGuard:
 
 
 def validate_payload(required_fields: list[str]) -> Callable:
+    """Create a payload validator that checks required JSON field presence only.
+
+    This validator only verifies whether required field names exist in the payload.
+    It does not validate field data types, value ranges, or nested schema constraints.
+
+    Args:
+        required_fields: Field names that must be present in request payloads.
+
+    Returns:
+        Callable that accepts a payload dictionary and returns (is_valid, error_message).
+    """
+
     def _validator(payload: dict) -> tuple[bool, str]:
+        """Validate that all configured required fields exist in payload."""
         for field in required_fields:
             if field not in payload:
                 return False, f"Missing field: {field}"

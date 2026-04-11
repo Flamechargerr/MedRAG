@@ -79,7 +79,7 @@ def _install_app_dependency_stubs():
     data_loader_module = types.ModuleType("src.data_loader")
     data_loader_module.load_medqa_data = lambda num_eval_questions=5: ([], [])
 
-    def load_medical_corpus(dataset_to_fallback=None, max_docs=200, **kwargs):
+    def load_medical_corpus(fallback_dataset=None, max_docs=200, **kwargs):
         return [{"text": "Document evidence for testing", "id": "1", "title": "Test Source"}]
 
     data_loader_module.load_medical_corpus = load_medical_corpus
