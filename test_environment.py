@@ -67,7 +67,7 @@ def test_api_key():
         import os
         
         # Check for Emergent LLM Key
-        key = os.environ.get('EMERGENT_LLM_KEY', 'sk-emergent-56016CcDc780e503a4')
+        key = os.environ.get('EMERGENT_LLM_KEY', '')
         if key:
             print(f"  ✅ Emergent LLM Key configured: {key[:15]}...")
             openai.api_key = key
