@@ -5,7 +5,12 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # API Keys
-OPENCALL_LLM_KEY = "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"
+OPENCALL_LLM_KEY = (
+    os.environ.get("GROQ_API_KEY")
+    or os.environ.get("OPENCALL_LLM_KEY")
+    or os.environ.get("EMERGENT_LLM_KEY")
+    or ""
+)
 HUGGINGFACE_API_KEY = os.environ.get('HUGGINGFACE_API_KEY', '')
 
 # Model Configurations
@@ -28,5 +33,15 @@ class Config:
     @classmethod
     def load_env(cls):
         # Allow checking GPU availability correctly at runtime
-        import torch
-        cls.DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu')
+        try:
+            import torch
+            cls.DEVICE = torch.device(
+                'cuda' if torch.cuda.is_available()
+                else 'mps' if torch.backends.mps.is_available()
+                else 'cpu'
+            )
+        except Exception as e:
+            logging.getLogger(__name__).warning(
+                f"Failed to initialize PyTorch device, falling back to CPU: {e}"
+            )
+            cls.DEVICE = 'cpu'
