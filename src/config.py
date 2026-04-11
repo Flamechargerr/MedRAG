@@ -40,5 +40,6 @@ class Config:
                 else 'mps' if torch.backends.mps.is_available()
                 else 'cpu'
             )
-        except Exception:
+        except Exception as e:
+            logging.getLogger(__name__).warning(f"Falling back to CPU device: {e}")
             cls.DEVICE = 'cpu'
