@@ -94,6 +94,7 @@ class FlaskApiTests(unittest.TestCase):
             cls.app_module = importlib.reload(sys.modules["app"])
         else:
             cls.app_module = importlib.import_module("app")
+
     def setUp(self):
         self.app_module.system.is_initialized = False
         self.app_module.system.vector_store = None
