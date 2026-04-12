@@ -161,3 +161,4 @@ class Config:
 # feat: implement streaming response for chat endpoint
 # fix: handle timeout in MedRAG corpus downloads
 # refactor: extract retry logic into dedicated utility module
+# feat: add Redis caching layer for frequent queries
