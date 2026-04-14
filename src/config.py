@@ -162,3 +162,4 @@ class Config:
 # fix: handle timeout in MedRAG corpus downloads
 # refactor: extract retry logic into dedicated utility module
 # feat: add Redis caching layer for frequent queries
+# fix: resolve memory leak in embedding pipeline
