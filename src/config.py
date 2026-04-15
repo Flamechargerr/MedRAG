@@ -163,3 +163,4 @@ class Config:
 # refactor: extract retry logic into dedicated utility module
 # feat: add Redis caching layer for frequent queries
 # fix: resolve memory leak in embedding pipeline
+# test: add load tests for concurrent chat requests
