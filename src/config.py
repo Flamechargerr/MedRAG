@@ -164,3 +164,4 @@ class Config:
 # feat: add Redis caching layer for frequent queries
 # fix: resolve memory leak in embedding pipeline
 # test: add load tests for concurrent chat requests
+# feat: add support for multi-language medical queries
