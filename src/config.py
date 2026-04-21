@@ -165,3 +165,4 @@ class Config:
 # fix: resolve memory leak in embedding pipeline
 # test: add load tests for concurrent chat requests
 # feat: add support for multi-language medical queries
+# chore: upgrade to PyTorch 2.3 and transformers 4.46
