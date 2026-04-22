@@ -166,3 +166,4 @@ class Config:
 # test: add load tests for concurrent chat requests
 # feat: add support for multi-language medical queries
 # chore: upgrade to PyTorch 2.3 and transformers 4.46
+# fix: correct CORS handling for preflight OPTIONS
