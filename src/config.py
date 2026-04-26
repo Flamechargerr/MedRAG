@@ -167,3 +167,4 @@ class Config:
 # feat: add support for multi-language medical queries
 # chore: upgrade to PyTorch 2.3 and transformers 4.46
 # fix: correct CORS handling for preflight OPTIONS
+# feat: add structured logging with correlation IDs
