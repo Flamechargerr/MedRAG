@@ -168,3 +168,4 @@ class Config:
 # chore: upgrade to PyTorch 2.3 and transformers 4.46
 # fix: correct CORS handling for preflight OPTIONS
 # feat: add structured logging with correlation IDs
+# feat: add Prometheus metrics exporter
