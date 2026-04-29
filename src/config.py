@@ -169,3 +169,4 @@ class Config:
 # fix: correct CORS handling for preflight OPTIONS
 # feat: add structured logging with correlation IDs
 # feat: add Prometheus metrics exporter
+# fix: normalize Unicode characters in PubMed abstracts
