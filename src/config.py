@@ -171,3 +171,4 @@ class Config:
 # feat: add Prometheus metrics exporter
 # fix: normalize Unicode characters in PubMed abstracts
 # refactor: split MedRAGService into retrieval and generation services
+# feat: implement query expansion with medical synonyms
