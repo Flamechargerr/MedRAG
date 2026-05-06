@@ -172,3 +172,4 @@ class Config:
 # fix: normalize Unicode characters in PubMed abstracts
 # refactor: split MedRAGService into retrieval and generation services
 # feat: implement query expansion with medical synonyms
+# chore: add pre-commit hooks with ruff and black
