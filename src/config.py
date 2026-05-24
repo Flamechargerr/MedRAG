@@ -174,3 +174,4 @@ class Config:
 # feat: implement query expansion with medical synonyms
 # chore: add pre-commit hooks with ruff and black
 # fix: handle corrupted FAISS index gracefully
+# test: add end-to-end tests with mocked LLM responses
