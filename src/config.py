@@ -175,3 +175,4 @@ class Config:
 # chore: add pre-commit hooks with ruff and black
 # fix: handle corrupted FAISS index gracefully
 # test: add end-to-end tests with mocked LLM responses
+# feat: add admin dashboard for system status and metrics
