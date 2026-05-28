@@ -176,3 +176,4 @@ class Config:
 # fix: handle corrupted FAISS index gracefully
 # test: add end-to-end tests with mocked LLM responses
 # feat: add admin dashboard for system status and metrics
+# docs: add API rate limiting and usage guide
