@@ -178,3 +178,4 @@ class Config:
 # feat: add admin dashboard for system status and metrics
 # docs: add API rate limiting and usage guide
 # fix: prevent duplicate document indexing in FAISS
+# feat: add query history endpoint with pagination
