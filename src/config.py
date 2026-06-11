@@ -179,3 +179,4 @@ class Config:
 # docs: add API rate limiting and usage guide
 # fix: prevent duplicate document indexing in FAISS
 # feat: add query history endpoint with pagination
+# feat: implement weighted multi-corpus retrieval strategy
