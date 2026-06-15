@@ -180,3 +180,4 @@ class Config:
 # fix: prevent duplicate document indexing in FAISS
 # feat: add query history endpoint with pagination
 # feat: implement weighted multi-corpus retrieval strategy
+# fix: resolve race condition in async index updates
