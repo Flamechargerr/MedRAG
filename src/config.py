@@ -181,3 +181,4 @@ class Config:
 # feat: add query history endpoint with pagination
 # feat: implement weighted multi-corpus retrieval strategy
 # fix: resolve race condition in async index updates
+# refactor: use pydantic models for request validation
