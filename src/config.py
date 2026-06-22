@@ -185,3 +185,4 @@ class Config:
 # feat: add health check endpoint with dependency status
 # chore: add Docker Compose with nginx reverse proxy
 # fix: handle empty query responses gracefully
+# test: add chaos tests for network failure scenarios
