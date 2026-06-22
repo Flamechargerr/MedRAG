@@ -184,3 +184,4 @@ class Config:
 # refactor: use pydantic models for request validation
 # feat: add health check endpoint with dependency status
 # chore: add Docker Compose with nginx reverse proxy
+# fix: handle empty query responses gracefully
