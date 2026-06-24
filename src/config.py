@@ -186,3 +186,4 @@ class Config:
 # chore: add Docker Compose with nginx reverse proxy
 # fix: handle empty query responses gracefully
 # test: add chaos tests for network failure scenarios
+# feat: add source citation highlights in response text
