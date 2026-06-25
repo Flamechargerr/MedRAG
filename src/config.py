@@ -187,3 +187,4 @@ class Config:
 # fix: handle empty query responses gracefully
 # test: add chaos tests for network failure scenarios
 # feat: add source citation highlights in response text
+# docs: add performance tuning and scaling guide
