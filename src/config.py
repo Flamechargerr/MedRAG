@@ -157,35 +157,3 @@ class Config:
         except Exception as exc:
             logging.getLogger(__name__).warning("Failed to initialize PyTorch device, falling back to CPU: %s", exc)
             cls.DEVICE = "cpu"
-# feat: add async indexing support for large corpora
-# feat: implement streaming response for chat endpoint
-# fix: handle timeout in MedRAG corpus downloads
-# refactor: extract retry logic into dedicated utility module
-# feat: add Redis caching layer for frequent queries
-# fix: resolve memory leak in embedding pipeline
-# test: add load tests for concurrent chat requests
-# feat: add support for multi-language medical queries
-# chore: upgrade to PyTorch 2.3 and transformers 4.46
-# fix: correct CORS handling for preflight OPTIONS
-# feat: add structured logging with correlation IDs
-# feat: add Prometheus metrics exporter
-# fix: normalize Unicode characters in PubMed abstracts
-# refactor: split MedRAGService into retrieval and generation services
-# feat: implement query expansion with medical synonyms
-# chore: add pre-commit hooks with ruff and black
-# fix: handle corrupted FAISS index gracefully
-# test: add end-to-end tests with mocked LLM responses
-# feat: add admin dashboard for system status and metrics
-# docs: add API rate limiting and usage guide
-# fix: prevent duplicate document indexing in FAISS
-# feat: add query history endpoint with pagination
-# feat: implement weighted multi-corpus retrieval strategy
-# fix: resolve race condition in async index updates
-# refactor: use pydantic models for request validation
-# feat: add health check endpoint with dependency status
-# chore: add Docker Compose with nginx reverse proxy
-# fix: handle empty query responses gracefully
-# test: add chaos tests for network failure scenarios
-# feat: add source citation highlights in response text
-# docs: add performance tuning and scaling guide
-# feat: add support for custom prompt templates per corpus
