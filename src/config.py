@@ -188,3 +188,4 @@ class Config:
 # test: add chaos tests for network failure scenarios
 # feat: add source citation highlights in response text
 # docs: add performance tuning and scaling guide
+# feat: add support for custom prompt templates per corpus
